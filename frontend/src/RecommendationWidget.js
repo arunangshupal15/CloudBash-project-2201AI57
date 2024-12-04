@@ -12,7 +12,7 @@ const RecommendationWidget = () => {
     try {
       // Make the GET request to the updated URL with the correct product ID
       const productId = "31602544"; // Example product ID, can be dynamically passed
-      const response = await axios.get(`https://www.myntra.com/gateway/v2/product/${productId}/related`);
+      const response = await axios.post(`https://www.myntra.com/gateway/v2/product/${productId}/related`);
 
       // Assuming the API returns an object with a `products` array in its response
       if (response.data && response.data.products) {
