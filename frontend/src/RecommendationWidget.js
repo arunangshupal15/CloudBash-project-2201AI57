@@ -12,9 +12,7 @@ const RecommendationWidget = () => {
     setError("");
     try {
       const response = await axios.post("http://localhost:5000/recommendations", {
-        // You can customize the request body here
-        productId: "31602544", // Example payload
-        size: "M",
+        product_id: "31602544",
       });
       setRecommendations(response.data); // Assuming the response is an array
     } catch (err) {
