@@ -4,7 +4,7 @@ import requests
 
 app = Flask(__name__)
 
-RECOMMENDATION_API_URL = "https://www.myntra.com/gateway/v2/{product_id}/31602544/related"
+RECOMMENDATION_API_URL = "https://www.myntra.com/gateway/v2/product/{product_id}/related"
 
 @app.route('/recommendations', methods=['GET'])
 def fetch_recommendations():
