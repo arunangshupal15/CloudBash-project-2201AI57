@@ -1,6 +1,7 @@
 // RecommendationWidget.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./RecommendationWidget.css";
 
 const RecommendationWidget = () => {
   const [recommendations, setRecommendations] = useState([]);
@@ -14,7 +15,7 @@ const RecommendationWidget = () => {
       const response = await axios.post("http://localhost:5000/recommendations", {
         product_id: "31602544",
       });
-      setRecommendations(response.data); // Assuming the response is an array
+      setRecommendations(response.data);
     } catch (err) {
       setError("Failed to fetch recommendations.");
     } finally {
@@ -22,24 +23,34 @@ const RecommendationWidget = () => {
     }
   };
 
+  useEffect(() => {
+    fetchRecommendations();
+  }, []);
   return (
-    <div style={{ padding: "20px", border: "1px solid #ccc" }}>
+    <div className="recommendation-widget">
       <h3>Recommended Products</h3>
       <button onClick={fetchRecommendations} disabled={loading}>
-        {loading ? "Loading..." : "Get Recommendations"}
+        {loading ? "Loading..." : "Refresh Recommendations"}
       </button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <ul>
-        {recommendations.map((item, index) => (
-          <li key={index}>
-            <h4>{item.name}</h4>
-            <p>{item.description}</p>
-            <img src={item.imageUrl} alt={item.name} style={{ width: "100px" }} />
-          </li>
-        ))}
-      </ul>
+      {error && <p className="error-message">{error}</p>}
+      {recommendations.length > 0 ? (
+        <ul className="recommendations-list">
+          {recommendations.map((item, index) => (
+            <li key={index} className="recommendation-item">
+              <img src={item.imageUrl} alt={item.name} />
+              <div className="recommendation-details">
+                <h4>{item.name}</h4>
+                <p>{item.description}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="no-recommendations">No recommendations available.</p>
+      )}
     </div>
   );
 };
 
 export default RecommendationWidget;
+
