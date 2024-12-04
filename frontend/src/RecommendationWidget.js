@@ -1,3 +1,4 @@
+// RecommendationWidget.js
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -10,16 +11,12 @@ const RecommendationWidget = () => {
     setLoading(true);
     setError("");
     try {
-      // Make the GET request to the updated URL with the correct product ID
-      const productId = "31602544"; // Example product ID, can be dynamically passed
-      const response = await axios.post(`https://www.myntra.com/gateway/v2/product/${productId}/related`);
-
-      // Assuming the API returns an object with a `products` array in its response
-      if (response.data && response.data.products) {
-        setRecommendations(response.data.products); // Set the recommendations data
-      } else {
-        setError("No related products found.");
-      }
+      const response = await axios.post("http://localhost:5000/recommendations", {
+        // You can customize the request body here
+        productId: "31602544", // Example payload
+        size: "M",
+      });
+      setRecommendations(response.data); // Assuming the response is an array
     } catch (err) {
       setError("Failed to fetch recommendations.");
     } finally {
@@ -34,17 +31,15 @@ const RecommendationWidget = () => {
         {loading ? "Loading..." : "Get Recommendations"}
       </button>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {recommendations.length > 0 && (
-        <ul>
-          {recommendations.map((item, index) => (
-            <li key={index}>
-              <h4>{item.name}</h4>
-              <p>{item.description}</p>
-              <img src={item.imageUrl} alt={item.name} style={{ width: "100px" }} />
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul>
+        {recommendations.map((item, index) => (
+          <li key={index}>
+            <h4>{item.name}</h4>
+            <p>{item.description}</p>
+            <img src={item.imageUrl} alt={item.name} style={{ width: "100px" }} />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
