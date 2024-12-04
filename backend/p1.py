@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 RECOMMENDATION_API_URL = "https://www.myntra.com/gateway/v2/{product_id}/31602544/related"
 
-@app.route('/recommendations', methods=['POST'])
+@app.route('/recommendations', methods=['GET'])
 def fetch_recommendations():
     try:
         data = request.json  # Expecting a JSON payload from frontend

@@ -12,7 +12,7 @@ const RecommendationWidget = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.post("http://localhost:5000/recommendations", {
+      const response = await axios.get("http://localhost:5000/recommendations", {
         product_id: "31602544",
       });
       setRecommendations(response.data);
